@@ -27,12 +27,14 @@ root.rowconfigure(0, weight=1)
 root.rowconfigure(1, weight=1)
 root.rowconfigure(2, weight=1)
 root.columnconfigure(0, weight=1)
-root.columnconfigure(1, weight=1)
+root.columnconfigure(1, weight=5)
 root.columnconfigure(2, weight=1)
 
 shutterPic=PhotoImage(file="Shutter.png")
 picButton = Button(root, command=PicButtonClick, image=shutterPic)
 picButton.grid(row=1, column=3)
+
+SetupCamera()
 
 root.mainloop()
 
