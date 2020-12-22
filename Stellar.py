@@ -4,6 +4,11 @@ import numpy as np
 import io
 from datetime import datetime, timedelta
 from PIL import Image
+import subprocess
+
+def IsRaspberryPi():
+  os_id = subprocess.Popen("cat /etc/os-release | grep \"^ID=\"", shell=True, stdout=subprocess.PIPE).stdout.read().decode('utf-8').rstrip()
+  return (os_id == "ID=raspbian")
 
 def SetupCamera():
     import picamera
@@ -12,29 +17,35 @@ def SetupCamera():
     camera_preview_fullscreen = False
     preview = camera.start_preview()
 
-def PicButtonClick():
-    filename = datetime.now().strftime("%Y%m%d-%H%M%S.jpg")
-    camera.capture(filename)
+def MainScreenClick(e):
+    pixel = maskPic.getpixel((e.x,e.y))
+    if (pixel == (255,0,0,255)):
+        filename = datetime.now().strftime("%Y%m%d-%H%M%S.jpg")
+        if (is_rpi):
+            camera.capture(filename)
+        sys.exit(0)
+
+is_rpi = IsRaspberryPi()
 
 root = Tk()
 root.title("Pi Camera")
 root.overrideredirect(True)
-root.geometry('%dx%d+0+0' % (root.winfo_screenwidth(), root.winfo_screenheight()))
-root.configure(background='black')
-root.wm_attributes('-alpha', 0.7)  
+dims = (800, 480)
+root.geometry('%dx%d+0+0' % dims)
+root.configure(background='grey')
 
-root.rowconfigure(0, weight=1)
-root.rowconfigure(1, weight=1)
-root.rowconfigure(2, weight=1)
-root.columnconfigure(0, weight=1)
-root.columnconfigure(1, weight=5)
-root.columnconfigure(2, weight=1)
+mainPic=PhotoImage(file="MainScreen.png")
+maskPic=Image.open("MaskScreen.png")
 
-shutterPic=PhotoImage(file="Shutter.png")
-picButton = Button(root, command=PicButtonClick, image=shutterPic)
-picButton.grid(row=1, column=3)
+canvas = Canvas(root, width=dims[0], height=dims[1], highlightthickness=0, bg='black')
+canvas.bind("<Button-1>", MainScreenClick)
+canvas.pack(expand=YES, fill=BOTH)
 
-SetupCamera()
+canvas.create_image(0,0,image=mainPic, anchor=NW)
+#root.pack(fill="both", expand=True)
+
+if (is_rpi):
+    SetupCamera()
 
 root.mainloop()
 
