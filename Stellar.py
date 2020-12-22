@@ -16,6 +16,7 @@ def SetupCamera():
     camera.resolution = camera.MAX_RESOLUTION
     camera_preview_fullscreen = False
     preview = camera.start_preview()
+    return camera
 
 def MainScreenClick(e):
     pixel = maskPic.getpixel((e.x,e.y))
@@ -45,7 +46,7 @@ canvas.create_image(0,0,image=mainPic, anchor=NW)
 #root.pack(fill="both", expand=True)
 
 if (is_rpi):
-    SetupCamera()
+    camera = SetupCamera()
 
 root.mainloop()
 
