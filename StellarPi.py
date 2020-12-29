@@ -5,9 +5,15 @@ import io
 from datetime import datetime, timedelta
 import subprocess
 import StellarPiUI, StellarPiCamera
+from enum import Enum
+
+class Mode(Enum):
+    ShowPicture = 1
+    ShowPreview = 2
 
 class StellarPi:
     def __init__(self):
+        self.mode = Mode.ShowPreview
         self.camera = StellarPiCamera.StellarPiCamera(self.IsRaspberryPi())
         callbacks = {
             'CameraButton_Clicked': self.CameraButton_Clicked
@@ -19,9 +25,14 @@ class StellarPi:
       return (os_id == "ID=raspbian")
     
     def CameraButton_Clicked(self,e):
-        fname = self.camera.take_picture()
-        self.camera.deactivate_preview()
-        self.ui.show_picture(fname)
+        if (self.mode == Mode.ShowPreview):
+            fname = self.camera.take_picture()
+            self.camera.deactivate_preview()
+            self.ui.show_picture(fname)
+            self.mode = Mode.ShowPicture
+        else:
+            self.camera.activate_preview()
+            self.mode = Mode.ShowPreview
     
     def run(self):
         self.ui.run()

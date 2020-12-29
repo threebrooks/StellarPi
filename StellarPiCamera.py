@@ -14,6 +14,7 @@ class StellarPiCamera:
             self.camera = picamera.PiCamera()
             self.camera.resolution = self.camera.MAX_RESOLUTION
             self.camera_preview_fullscreen = False
+        self.activate_preview()
 
     def activate_preview(self):
         if (self.camera):
