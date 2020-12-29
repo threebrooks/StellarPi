@@ -4,33 +4,27 @@ import sys
 import io
 from datetime import datetime, timedelta
 import subprocess
-import StellarPiUI
+import StellarPiUI, StellarPiCamera
 
-def IsRaspberryPi():
-  os_id = subprocess.Popen("cat /etc/os-release | grep \"^ID=\"", shell=True, stdout=subprocess.PIPE).stdout.read().decode('utf-8').rstrip()
-  return (os_id == "ID=raspbian")
+class StellarPi:
+    def __init__(self):
+        self.camera = StellarPiCamera.StellarPiCamera(self.IsRaspberryPi())
+        callbacks = {
+            'CameraButton_Clicked': self.CameraButton_Clicked
+        }
+        self.ui = StellarPiUI.StellarPiUI(callbacks) 
 
-def SetupCamera():
-    import picamera
-    camera = picamera.PiCamera()
-    camera.resolution = camera.MAX_RESOLUTION
-    camera_preview_fullscreen = False
-    preview = camera.start_preview()
-    return camera
+    def IsRaspberryPi(self):
+      os_id = subprocess.Popen("cat /etc/os-release | grep \"^ID=\"", shell=True, stdout=subprocess.PIPE).stdout.read().decode('utf-8').rstrip()
+      return (os_id == "ID=raspbian")
+    
+    def CameraButton_Clicked(self,e):
+        fname = self.camera.take_picture()
+        self.camera.deactivate_preview()
+        self.ui.show_picture(fname)
+    
+    def run(self):
+        self.ui.run()
 
-def CameraButtClick(e):
-    filename = datetime.now().strftime("%Y%m%d-%H%M%S.jpg")
-    if (is_rpi):
-        camera.capture(filename)
-    sys.exit(0)
-
-is_rpi = IsRaspberryPi()
-
-if (is_rpi):
-    camera = SetupCamera()
-
-app = QtWidgets.QApplication(sys.argv) 
-window = StellarPiUI.StellarPiUI() 
-app.exec_() 
-
+StellarPi().run()
 
