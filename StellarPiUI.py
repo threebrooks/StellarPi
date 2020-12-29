@@ -18,8 +18,10 @@ class StellarPiUI(QtWidgets.QMainWindow):
 
     def show_picture(self, fname):
         pictureDisplay = self.findChild(QtCore.QObject, 'pictureDisplay') 
+        w = pictureDisplay.width()
+        h = pictureDisplay.height()
         pixmap = QPixmap(fname)
-        pictureDisplay.setPixmap(pixmap)
-        pictureDisplay.setMask(pixmap.mask())
+        pictureDisplay.setPixmap(pixmap.scaled(w,h,QtCore.Qt.KeepAspectRatio))
+        #pictureDisplay.setMask(pixmap.mask())
 
 
