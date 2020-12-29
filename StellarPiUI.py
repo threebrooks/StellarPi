@@ -7,7 +7,7 @@ class StellarPiUI(QtWidgets.QMainWindow):
         self.app = QtWidgets.QApplication(sys.argv) 
         super(StellarPiUI, self).__init__() # Call the inherited classes __init__ method
         self.callbacks = callbacks
-        uic.loadUi('/mnt/c/Users/Me/Desktop/StellarPi.ui', self) # Load the .ui file
+        uic.loadUi('StellarPi.ui', self) # Load the .ui file
         self.setWindowFlags(QtCore.Qt.CustomizeWindowHint)
         self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
         self.findChild(QtCore.QObject, 'cameraButton').clicked.connect(callbacks['CameraButton_Clicked']) 

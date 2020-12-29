@@ -18,16 +18,16 @@ class StellarPiCamera:
 
     def activate_preview(self):
         if (self.camera):
-            preview = camera.start_preview()
+            preview = self.camera.start_preview()
 
     def deactivate_preview(self):
         if (self.camera):
-            preview = camera.stop_preview()
+            preview = self.camera.stop_preview()
 
     def take_picture(self):
         if (self.camera):
             filename = datetime.now().strftime("%Y%m%d-%H%M%S.jpg")
-            camera.capture(filename)
+            self.camera.capture(filename)
         else:
             filename = "dummy_pic.jpg"
         return filename
