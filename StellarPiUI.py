@@ -12,6 +12,7 @@ class StellarPiUI(QtWidgets.QMainWindow):
         self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
         self.findChild(QtCore.QObject, 'cameraButton').clicked.connect(callbacks['CameraButton_Clicked']) 
         self.findChild(QtCore.QObject, 'exitButton').clicked.connect(callbacks['ExitButton_Clicked']) 
+        self.setWindowState(QtCore.Qt.WindowMaximized)
         self.show() 
 
     def run(self):
