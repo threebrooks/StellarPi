@@ -26,7 +26,7 @@ class StellarPiCamera:
 
     def take_picture(self):
         if (self.camera):
-            filename = datetime.now().strftime("%Y%m%d-%H%M%S.jpg")
+            filename = "/var/www/html/"+datetime.now().strftime("%Y%m%d-%H%M%S.jpg")
             self.camera.capture(filename)
         else:
             filename = "dummy_pic.jpg"
