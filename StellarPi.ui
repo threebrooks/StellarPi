@@ -52,13 +52,36 @@
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
-         <widget class="QPushButton" name="cameraButton">
+         <widget class="QPushButton" name="exitButton">
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(0, 0, 0);border: none;</string>
+          </property>
           <property name="text">
            <string/>
           </property>
           <property name="icon">
            <iconset>
-            <normaloff>shutter.png</normaloff>shutter.png</iconset>
+            <normaloff>exit_button.png</normaloff>exit_button.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>50</width>
+            <height>70</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="cameraButton">
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(0, 0, 0);border: none;</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset>
+            <normaloff>shutter_button.png</normaloff>shutter_button.png</iconset>
           </property>
           <property name="iconSize">
            <size>

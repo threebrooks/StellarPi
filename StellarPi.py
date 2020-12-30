@@ -16,7 +16,8 @@ class StellarPi:
         self.mode = Mode.ShowPreview
         self.camera = StellarPiCamera.StellarPiCamera(self.IsRaspberryPi())
         callbacks = {
-            'CameraButton_Clicked': self.CameraButton_Clicked
+            'CameraButton_Clicked': self.CameraButton_Clicked,
+            'ExitButton_Clicked': self.ExitButton_Clicked
         }
         self.ui = StellarPiUI.StellarPiUI(callbacks) 
 
@@ -34,6 +35,9 @@ class StellarPi:
             self.camera.activate_preview()
             self.mode = Mode.ShowPreview
     
+    def ExitButton_Clicked(self,e):
+        sys.exit(0)
+
     def run(self):
         self.ui.run()
 
