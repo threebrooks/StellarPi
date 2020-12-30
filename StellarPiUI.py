@@ -23,6 +23,5 @@ class StellarPiUI(QtWidgets.QMainWindow):
         h = pictureDisplay.height()
         pixmap = QPixmap(fname)
         pictureDisplay.setPixmap(pixmap.scaled(w,h,QtCore.Qt.KeepAspectRatio))
-        #pictureDisplay.setMask(pixmap.mask())
 
 
