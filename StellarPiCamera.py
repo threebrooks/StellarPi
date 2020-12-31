@@ -2,12 +2,15 @@ from PyQt5 import QtWidgets, uic, QtCore
 import time
 import sys
 import io
+import os
 from datetime import datetime, timedelta
 import subprocess
 import StellarPiUI
 
 class DummyCamera:
     def __init__(self):
+        self.shutter_speed = 100
+        self.iso = 400
         pass
 
     def capture(self, fname):
@@ -28,11 +31,11 @@ class StellarPiCamera:
             self.camera.resolution = self.camera.MAX_RESOLUTION
         else:
             self.camera = DummyCamera()
-#        self.camera.awb_mode = 'off'
+        self.camera.awb_mode = 'off'
 #        self.camera.brightness = 50
 #        self.camera.shutter_speed = 100
-#        self.camera.exposure_mode = 'night' 
-#        self.camera.image_denoise = True 
+        self.camera.exposure_mode = 'night' 
+        self.camera.image_denoise = True 
 #        self.camera.iso = 400
 #        self.camera_preview_fullscreen = False
 
@@ -44,7 +47,7 @@ class StellarPiCamera:
 
     def takePicture(self):
         if (type(self.camera) == DummyCamera):
-            filename = "dummy_pic.jpg"
+            filename = os.path.join(os.path.dirname(os.path.realpath(__file__)), "dummy_pic.jpg")
         else:
             filename = "/var/www/html/"+datetime.now().strftime("%Y%m%d-%H%M%S.jpg")
         self.camera.capture(filename)

@@ -25,10 +25,11 @@ class StellarPiUI(QtWidgets.QMainWindow):
         self.app.exec_() 
 
     def setCameraButtonHot(self, hot):
+        basepath = os.path.dirname(os.path.realpath(__file__))
         if (hot):
-            self.findChild(QtCore.QObject, 'cameraButton').setIcon(QIcon(QPixmap("shutter_button_hot.png")))
+            self.findChild(QtCore.QObject, 'cameraButton').setIcon(QIcon(QPixmap(os.path.join(basepath, "shutter_button_hot.png"))))
         else:
-            self.findChild(QtCore.QObject, 'cameraButton').setIcon(QIcon(QPixmap("shutter_button.png")))
+            self.findChild(QtCore.QObject, 'cameraButton').setIcon(QIcon(QPixmap(os.path.join(basepath, "shutter_button.png"))))
 
 
     def showPicture(self, fname):
