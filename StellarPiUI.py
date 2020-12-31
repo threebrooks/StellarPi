@@ -3,7 +3,8 @@ from PyQt5.QtGui import QPixmap
 import sys
 
 class StellarPiUI(QtWidgets.QMainWindow):
-    def __init__(self, callbacks):
+    def __init__(self, callbacks, camera):
+        self.camera = camera
         self.app = QtWidgets.QApplication(sys.argv) 
         super(StellarPiUI, self).__init__() # Call the inherited classes __init__ method
         self.callbacks = callbacks
@@ -12,17 +13,25 @@ class StellarPiUI(QtWidgets.QMainWindow):
         self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
         self.findChild(QtCore.QObject, 'cameraButton').clicked.connect(callbacks['CameraButton_Clicked']) 
         self.findChild(QtCore.QObject, 'exitButton').clicked.connect(callbacks['ExitButton_Clicked']) 
+        self.findChild(QtCore.QObject, 'shutterSpeedUpButton').clicked.connect(callbacks['ShutterSpeedUpButton_Clicked']) 
+        self.findChild(QtCore.QObject, 'shutterSpeedDownButton').clicked.connect(callbacks['ShutterSpeedDownButton_Clicked']) 
+        self.findChild(QtCore.QObject, 'isoUpButton').clicked.connect(callbacks['ISOUpButton_Clicked']) 
+        self.findChild(QtCore.QObject, 'isoDownButton').clicked.connect(callbacks['ISODownButton_Clicked']) 
         self.setWindowState(QtCore.Qt.WindowMaximized)
         self.show() 
 
     def run(self):
         self.app.exec_() 
 
-    def show_picture(self, fname):
+    def showPicture(self, fname):
         pictureDisplay = self.findChild(QtCore.QObject, 'pictureDisplay') 
         w = pictureDisplay.width()
         h = pictureDisplay.height()
         pixmap = QPixmap(fname)
         pictureDisplay.setPixmap(pixmap.scaled(w,h,QtCore.Qt.KeepAspectRatio))
+
+    def updateElements(self):
+        self.findChild(QtCore.QObject, 'shutterSpeedLabel').setText("Shutter: "+str(self.camera.camera.shutter_speed)+"us") 
+        self.findChild(QtCore.QObject, 'isoLabel').setText("ISO: "+str(self.camera.camera.iso)) 
 
 

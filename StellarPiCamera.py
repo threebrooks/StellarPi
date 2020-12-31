@@ -6,6 +6,19 @@ from datetime import datetime, timedelta
 import subprocess
 import StellarPiUI
 
+class DummyCamera:
+    def __init__(self):
+        pass
+
+    def capture(self, fname):
+        pass
+
+    def start_preview(self):
+        pass
+
+    def stop_preview(self):
+        pass
+
 class StellarPiCamera:
     def __init__(self, is_rpi):
         self.camera = None
@@ -13,22 +26,59 @@ class StellarPiCamera:
             import picamera
             self.camera = picamera.PiCamera()
             self.camera.resolution = self.camera.MAX_RESOLUTION
-            self.camera_preview_fullscreen = False
-        self.activate_preview()
+        else:
+            self.camera = DummyCamera()
+        self.camera.awb_mode = 'off'
+        self.camera.brightness = 50
+        self.camera.shutter_speed = 100
+        self.camera.exposure_mode = 'night' 
+        self.camera.image_denoise = True 
+        self.camera.iso = 400
+        self.camera_preview_fullscreen = False
 
-    def activate_preview(self):
-        if (self.camera):
+    def setPreview(self, on):
+        if (on):
             preview = self.camera.start_preview()
-
-    def deactivate_preview(self):
-        if (self.camera):
+        else:
             preview = self.camera.stop_preview()
 
-    def take_picture(self):
-        if (self.camera):
-            filename = datetime.now().strftime("%Y%m%d-%H%M%S.jpg")
-            self.camera.capture(filename)
-        else:
+    def takePicture(self):
+        if (type(self.camera) == DummyCamera):
             filename = "dummy_pic.jpg"
+        else:
+            filename = datetime.now().strftime("%Y%m%d-%H%M%S.jpg")
+        self.camera.capture(filename)
         return filename
+
+    def setShutterSpeed(self, up):
+        speed = self.camera.shutter_speed
+        if (up):
+            speed = int(speed*2)
+        else:
+            speed = int(speed/2)
+        speed = max(min(1000000,speed),1)
+        self.camera.shutter_speed = speed
+        return speed
+
+    def setBrightness(self, up):
+        brightness = self.camera.brightness 
+        if (up):
+            brightness += 1
+        else:
+            brightness -= 1
+        brightness = max(min(100,brightness),0)
+        self.camera.brightness = brightness
+        return brightness
+
+    def setISO(self, up):
+        iso = self.camera.iso
+        if (up):
+            iso += 100
+        else:
+            iso -= 100
+        iso = max(min(1600,iso),100)
+        self.camera.iso = iso
+        return iso
+
+
     
