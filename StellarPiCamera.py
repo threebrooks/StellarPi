@@ -46,7 +46,7 @@ class StellarPiCamera:
         if (type(self.camera) == DummyCamera):
             filename = "dummy_pic.jpg"
         else:
-            filename = datetime.now().strftime("%Y%m%d-%H%M%S.jpg")
+            filename = "/var/www/html/"+datetime.now().strftime("%Y%m%d-%H%M%S.jpg")
         self.camera.capture(filename)
         return filename
 
