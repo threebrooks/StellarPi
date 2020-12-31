@@ -1,5 +1,5 @@
 from PyQt5 import QtWidgets, uic, QtCore
-from PyQt5.QtGui import QPixmap
+from PyQt5.QtGui import QPixmap, QIcon
 import sys
 
 class StellarPiUI(QtWidgets.QMainWindow):
@@ -23,6 +23,13 @@ class StellarPiUI(QtWidgets.QMainWindow):
     def run(self):
         self.app.exec_() 
 
+    def setCameraButtonHot(self, hot):
+        if (hot):
+            self.findChild(QtCore.QObject, 'cameraButton').setIcon(QIcon(QPixmap("shutter_button_hot.png")))
+        else:
+            self.findChild(QtCore.QObject, 'cameraButton').setIcon(QIcon(QPixmap("shutter_button.png")))
+
+
     def showPicture(self, fname):
         pictureDisplay = self.findChild(QtCore.QObject, 'pictureDisplay') 
         w = pictureDisplay.width()
@@ -31,7 +38,7 @@ class StellarPiUI(QtWidgets.QMainWindow):
         pictureDisplay.setPixmap(pixmap.scaled(w,h,QtCore.Qt.KeepAspectRatio))
 
     def updateElements(self):
-        self.findChild(QtCore.QObject, 'shutterSpeedLabel').setText("Shutter: "+str(self.camera.camera.shutter_speed)+"us") 
-        self.findChild(QtCore.QObject, 'isoLabel').setText("ISO: "+str(self.camera.camera.iso)) 
+        self.findChild(QtCore.QObject, 'shutterSpeedLabel').setText("Shutter\n "+str(self.camera.camera.shutter_speed)+"us") 
+        self.findChild(QtCore.QObject, 'isoLabel').setText("ISO\n"+str(self.camera.camera.iso)) 
 
 

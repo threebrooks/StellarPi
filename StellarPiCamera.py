@@ -28,13 +28,13 @@ class StellarPiCamera:
             self.camera.resolution = self.camera.MAX_RESOLUTION
         else:
             self.camera = DummyCamera()
-        self.camera.awb_mode = 'off'
-        self.camera.brightness = 50
-        self.camera.shutter_speed = 100
-        self.camera.exposure_mode = 'night' 
-        self.camera.image_denoise = True 
-        self.camera.iso = 400
-        self.camera_preview_fullscreen = False
+#        self.camera.awb_mode = 'off'
+#        self.camera.brightness = 50
+#        self.camera.shutter_speed = 100
+#        self.camera.exposure_mode = 'night' 
+#        self.camera.image_denoise = True 
+#        self.camera.iso = 400
+#        self.camera_preview_fullscreen = False
 
     def setPreview(self, on):
         if (on):
