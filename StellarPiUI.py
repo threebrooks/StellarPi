@@ -1,6 +1,7 @@
 from PyQt5 import QtWidgets, uic, QtCore
 from PyQt5.QtGui import QPixmap, QIcon
 import sys
+import os
 
 class StellarPiUI(QtWidgets.QMainWindow):
     def __init__(self, callbacks, camera):
@@ -8,7 +9,7 @@ class StellarPiUI(QtWidgets.QMainWindow):
         self.app = QtWidgets.QApplication(sys.argv) 
         super(StellarPiUI, self).__init__() # Call the inherited classes __init__ method
         self.callbacks = callbacks
-        uic.loadUi('StellarPi.ui', self) # Load the .ui file
+        uic.loadUi(os.path.join(os.path.dirname(os.path.realpath(__file__)),'StellarPi.ui'), self) # Load the .ui file
         self.setWindowFlags(QtCore.Qt.CustomizeWindowHint)
         self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
         self.findChild(QtCore.QObject, 'cameraButton').clicked.connect(callbacks['CameraButton_Clicked']) 
